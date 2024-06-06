@@ -62,8 +62,7 @@ def init_files() -> None:
             filename_list = data_file['key'].split('-')
             description = '-'.join(filename_list[:3])
             index_data.append(f"{description}\t{'-'.join(filename_list)}\t{data_file['checksum'].split(':')[1]}")
-        #with open(index_path, 'w') as index_file:
-        #   index_file.write('\n'.join(index_data))
+        
         #Download some other necessary files
         if not os.path.isfile(acetyl_mapping_path):
             for num in range(0, len(BUCKET) - 1):
@@ -112,26 +111,37 @@ def download(cancer: str, source: str, dtype: str, data_file: str) -> bool:
     file_name = f"{description}-{data_file}"
     output_file = os.path.join(output_dir, data_file)
     # Error handling for different exceptions
-    try:
-        repo_data = fetch_repo_data()
-        for num in range(0, len(repo_data['files']) - 1):
-                if repo_data['files'][num]['key'] == file_name:
-                    get_data(repo_data['files'][num]['links']['self'], output_file)
-        # Verify checksum
-        with open(os.path.join(DATA_DIR, output_file), 'rb') as data_file:
-            local_hash = md5(data_file.read()).hexdigest()
-        if local_hash != cptac.INDEX.query("filename == @file_name")['checksum'].item():
-            os.remove(os.path.join(DATA_DIR, output_file))
-            raise DownloadFailedError("Download failed: local and remote files do not match. Please try again.")
-        return True
-    except NoInternetError as e:
-        raise NoInternetError("Download failed -- No internet connection.")
-    except DownloadFailedError as e:
-        raise e
-    except requests.RequestException as e:
-        raise HttpResponseError(f"Requesting data failed with the following error: {e}")
-    except Exception as e:
-        raise DownloadFailedError(f"Failed to download data file for {source} {cancer} {dtype} with error:\n{e}") from e
+    # This is a temporary solution to problem with bcm-ucec-proteomics, will fix with new pdc download update
+    if file_name == 'bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt.gz':
+        print('1')
+        get_data("https://zenodo.org/api/records/8394329/files/bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt.gz/content", output_file)
+    elif file_name == 'bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt.gz/content':
+        print('2')
+        get_data("https://zenodo.org/api/records/8394329/files/bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt.gz/content", output_file)
+    elif file_name == 'bcm-ucec-mapping-gencode.v34.basic.annotation-mapping.txt.gz':
+        print('3')
+        get_data('https://zenodo.org/api/records/8394329/files/bcm-ucec-mapping-gencode.v34.basic.annotation-mapping.txt.gz/content', output_file)
+    else:  
+        try:
+            repo_data = fetch_repo_data()
+            for num in range(0, len(repo_data['files']) - 1):
+                    if repo_data['files'][num]['key'] == file_name:
+                        get_data(repo_data['files'][num]['links']['self'], output_file)
+            # Verify checksum
+            with open(os.path.join(DATA_DIR, output_file), 'rb') as data_file:
+                local_hash = md5(data_file.read()).hexdigest()
+            if local_hash != cptac.INDEX.query("filename == @file_name")['checksum'].item():
+                os.remove(os.path.join(DATA_DIR, output_file))
+                raise DownloadFailedError("Download failed: local and remote files do not match. Please try again.")
+            return True
+        except NoInternetError as e:
+            raise NoInternetError("Download failed -- No internet connection.")
+        except DownloadFailedError as e:
+            raise e
+        except requests.RequestException as e:
+            raise HttpResponseError(f"Requesting data failed with the following error: {e}")
+        except Exception as e:
+            raise DownloadFailedError(f"Failed to download data file for {source} {cancer} {dtype} with error:\n{e}") from e
 
 
 def get_bucket() -> str:
