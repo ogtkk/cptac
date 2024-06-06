@@ -113,13 +113,10 @@ def download(cancer: str, source: str, dtype: str, data_file: str) -> bool:
     # Error handling for different exceptions
     # This is a temporary solution to problem with bcm-ucec-proteomics, will fix with new pdc download update
     if file_name == 'bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt.gz':
-        print('1')
         get_data("https://zenodo.org/api/records/8394329/files/bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt.gz/content", output_file)
     elif file_name == 'bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt.gz/content':
-        print('2')
         get_data("https://zenodo.org/api/records/8394329/files/bcm-ucec-proteomics-UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt.gz/content", output_file)
     elif file_name == 'bcm-ucec-mapping-gencode.v34.basic.annotation-mapping.txt.gz':
-        print('3')
         get_data('https://zenodo.org/api/records/8394329/files/bcm-ucec-mapping-gencode.v34.basic.annotation-mapping.txt.gz/content', output_file)
     else:  
         try:

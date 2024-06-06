@@ -158,7 +158,7 @@ class BcmBrca(Source):
             mapping = gene_key_df['gene_name'].to_dict()
 
             # Map gene_key to get gene name
-            df['Name'] = df['Gene_Key'].map(mapping)
+            df['Name'] = df['Database_ID'].map(mapping)
 
             # Drop the 'idx' and 'Gene_Key' columns
             df.drop(columns=['idx', 'Gene_Key'], inplace=True)
