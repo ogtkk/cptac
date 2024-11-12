@@ -295,7 +295,7 @@ class BcmCcrcc(Source):
             phospho_normal = self._helper_tables.get("phosphoproteomics_normal")
 
             # Concatenate the two DataFrames
-            phospho_combined = pd.concat([phospho_tumor, phospho_normal], axis=1)
+            phospho_combined = pd.concat([phospho_tumor, phospho_normal])
 
             # Save df in data
             self.save_df(df_type, phospho_combined)

@@ -1,3 +1,6 @@
+# This is a modified version of cptac library from https://github.com/PayneLab/cptac
+This version provide different data structure for BCM phosphoproteomics data, preserving all information available from the code.
+
 # NOTE With current release
 We are having difficulty with the API on Zenodo and are working to find a better host for our data. Please be patient while we fix these issues.
 
@@ -21,7 +24,10 @@ If you do not already have Python installed on your computer, we suggest using e
 ### Installing the cptac package
 We distribute the package [through the Python Package Index (PyPI)](https://pypi.org/project/cptac/), so regardless of which Python distribution you are using, you install the package using the `pip` program:
 ```
+# installation of original version 
 pip install cptac
+# installation of this modified version
+pip install git+https://github.com/ogtkk/cptac.git
 ```
 If you are using the Anaconda distribution of Python, this will install `cptac` to the currently active environment as long as `pip` is available in that environment, which it would be by default. If `pip` is not installed in your environment, you can install it with `conda install -c anaconda pip`. Then, you can use `pip` to install the `cptac` package. We plan on making `cptac` directly available through `conda` in the near future.
 
