@@ -1,5 +1,5 @@
 # This is a modified version of cptac library from https://github.com/PayneLab/cptac
-This version provide different data structure for BCM phosphoproteomics data, preserving all information available from the code.
+This version provide different data structure for BCM phosphoproteomics data, preserving all information available from the source data.
 
 # NOTE With current release
 We are having difficulty with the API on Zenodo and are working to find a better host for our data. Please be patient while we fix these issues.
