@@ -183,8 +183,8 @@ class BcmGbm(Source):
             df.index.name = 'gene'
 
             # Extract Database_ID, gene name, site, and peptide from 'idx' column
-            df[['Database_ID', 'Gene_Key', 'Site', 'Peptide']] = df['idx'].str.split('|', expand=True).iloc[:,
-                                                                 [0, 1, 2, 3]]
+            df[['ENSG', 'ENSP', 'Site', 'Sequence', 'Number']] = df['idx'].str.split('|', expand=True).iloc[:,
+                                                                 [0, 1, 2, 3, 4]]
 
             # Load mapping information
             self.load_mapping()
@@ -195,10 +195,10 @@ class BcmGbm(Source):
             df['Name'] = df['Database_ID'].map(mapping)
 
             # Drop the 'idx' and 'Gene_Key' columns
-            df.drop(columns=['idx', 'Gene_Key'], inplace=True)
+            df.drop(columns=['idx'], inplace=True)
 
             # Set the 'Name', 'Site', 'Peptide', and 'Database_ID' columns as index in this order
-            df.set_index(['Name', 'Site', 'Peptide', 'Database_ID'], inplace=True)
+            df.set_index(['Name', 'Site', 'Sequence', 'ENSG', 'ENSP', 'Number'], inplace=True)
 
             # Transpose the dataframe so that the patient IDs are the index
             df = df.transpose()
