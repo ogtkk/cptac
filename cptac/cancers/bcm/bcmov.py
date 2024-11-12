@@ -183,7 +183,7 @@ class BcmOv(Source):
                     mapping = gene_key_df['gene_name'].to_dict()
 
                     # Map gene_key to get gene name
-                    df['Name'] = df['Database_ID'].map(mapping)
+                    df['Name'] = df['ENSG'].map(mapping)
 
                     # Drop the 'idx' and 'Gene_Key' columns
                     df.drop(columns=['idx'], inplace=True)
@@ -213,7 +213,7 @@ class BcmOv(Source):
                     mapping = gene_key_df['gene_name'].to_dict()
 
                     # Map gene_key to get gene name
-                    df['Name'] = df['Database_ID'].map(mapping)
+                    df['Name'] = df['ENSG'].map(mapping)
 
                     # Drop the 'idx' and 'Gene_Key' columns
                     df.drop(columns=['idx'], inplace=True)
